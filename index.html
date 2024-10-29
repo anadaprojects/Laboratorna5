@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Форма перевірки даних</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Перевірка даних</h2>
+    <form id="userForm">
+      <label for="group">Група (TT-ЧЧ):</label>
+      <input type="text" id="group" name="group" required>
+
+      <label for="phone">Телефон ((ЧЧЧ)-ЧЧЧ-ЧЧ-ЧЧ):</label>
+      <input type="text" id="phone" name="phone" required>
+
+      <label for="idCard">ID-картка (TT ЧЧЧЧЧЧ):</label>
+      <input type="text" id="idCard" name="idCard" required>
+
+      <label for="faculty">Факультет (TTTT):</label>
+      <input type="text" id="faculty" name="faculty" required>
+
+      <label for="birthdate">Дата народження (ЧЧ.ЧЧ.ЧЧЧЧ):</label>
+      <input type="text" id="birthdate" name="birthdate" required>
+
+      <button type="button" onclick="validateForm()">Перевірити</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function validateForm() {
+      const groupPattern = /^[A-Z]{2}-\d{2}$/;
+      const phonePattern = /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
+      const idCardPattern = /^[A-Z]{2} \d{6}$/;
+      const facultyPattern = /^[A-Z]{4}$/;
+      const birthdatePattern = /^\d{2}\.\d{2}\.\d{4}$/;
+
+      let valid = true;
+      let result = "";
+
+      const group = document.getElementById("group").value;
+      if (!groupPattern.test(group)) {
+        result += "<p class='error'>Невірний формат для Групи</p>";
+        valid = false;
+      }
+
+      const phone = document.getElementById("phone").value;
+      if (!phonePattern.test(phone)) {
+        result += "<p class='error'>Невірний формат для Телефону</p>";
+        valid = false;
+      }
+
+      const idCard = document.getElementById("idCard").value;
+      if (!idCardPattern.test(idCard)) {
+        result += "<p class='error'>Невірний формат для ID-картки</p>";
+        valid = false;
+      }
+
+      const faculty = document.getElementById("faculty").value;
+      if (!facultyPattern.test(faculty)) {
+        result += "<p class='error'>Невірний формат для Факультету</p>";
+        valid = false;
+      }
+
+      const birthdate = document.getElementById("birthdate").value;
+      if (!birthdatePattern.test(birthdate)) {
+        result += "<p class='error'>Невірний формат для Дати народження</p>";
+        valid = false;
+      }
+
+      if (valid) {
+        result = "<p class='success'>Усі дані введено правильно!</p>";
+      }
+
+      document.getElementById("result").innerHTML = result;
+    }
+  </script>
+
+</body>
+</html>

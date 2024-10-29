@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Таблиця 6x6 з інтерактивними подіями</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Таблиця 6x6</h2>
+  <label for="colorPicker">Виберіть колір:</label>
+  <input type="color" id="colorPicker" value="#ff0000">
+  
+  <table id="numberTable">
+  </table>
+
+  <script>
+    const table = document.getElementById("numberTable");
+    const variantNumber = 2; 
+
+    let cellNumber = 1;
+
+    for (let i = 0; i < 6; i++) {
+      const row = document.createElement("tr");
+      for (let j = 0; j < 6; j++) {
+        const cell = document.createElement("td");
+        cell.innerText = cellNumber;
+        cell.dataset.number = cellNumber;
+
+
+        cell.addEventListener("mouseover", () => {
+          if (parseInt(cell.dataset.number) === variantNumber) {
+            cell.style.backgroundColor = getRandomColor();
+          }
+        });
+
+
+        cell.addEventListener("click", () => {
+          if (parseInt(cell.dataset.number) === variantNumber) {
+            cell.style.backgroundColor = document.getElementById("colorPicker").value;
+          }
+        });
+
+        cell.addEventListener("dblclick", () => {
+          if (parseInt(cell.dataset.number) === variantNumber) {
+            const columnCells = document.querySelectorAll(`td:nth-child(${j + 1})`);
+            const chosenColor = document.getElementById("colorPicker").value;
+            columnCells.forEach((colCell) => {
+              colCell.style.backgroundColor = chosenColor;
+            });
+          }
+        });
+
+        row.appendChild(cell);
+        cellNumber++;
+      }
+      table.appendChild(row);
+    }
+
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+  </script>
+
+</body>
+</html>
